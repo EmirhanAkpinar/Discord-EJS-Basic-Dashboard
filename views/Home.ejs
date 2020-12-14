@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome!</title>
+    <style type="text/css">
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.2/animate.min.css">
+    <%- include("partials/head.ejs")%>
+</head>
+<body style="background-color: #222222">
+      <%- include ("partials/navbar.ejs",{user}) %>
+    <div class="container">
+        <h1 class="center-align"></h1>
+        <div class="row">
+
+            <% for (let i = 0; i < user.guilds.length; i++) { %>
+                <% if (!checkforperm({}, user.guilds[i].permissions, false)) continue; %>
+                <% if (user.guilds[i].icon) { %>
+                <a href="/dashboard/<%= user.guilds[i].id %>" style="margin-top: 20px; padding: 20px;"><img title="<%=user.guilds[i].name%>" class="rounded-circle" src="<%= `https://cdn.discordapp.com/icons/${user.guilds[i].id}/${user.guilds[i].icon}.png?size=128` %>" style="width: 110px; margin: 20px" alt="<%=user.guilds[i].name%>"></a>
+                
+                <% } else { %>
+                <a href="/dashboard/<%= user.guilds[i].id %>" style="margin-top: 20px; padding: 20px; margin: 15px"><canvas title="<%=user.guilds[i].name%>" style="background-color:#7289da; margin: 8px;" class="rounded-circle" id="<%= user.guilds[i].name.split(' ').join('').replace(`'`, ``) %>"  width="110px" height="110px" ></canvas></a>
+                    <script>
+                  function draw() {
+                  const ctx = document.getElementById("<%= user.guilds[i].name.split(' ').join('').replace(`'`, ``) %>").getContext('2d');
+                        ctx.font = '20px Arial';
+                        ctx.textAlign = "center";
+                        ctx.fillStyle = "white";
+                        ctx.fillText("<%= user.guilds[i].name.split(' ').map(v => v[0]).join('') %>", 40, 48);
+                  document.getElementById("<%= user.guilds[i].name.split(' ').join('').replace(`'`, ``) %>").style.marginBottom = "-50px";
+                  };
+                  draw();
+                    </script>
+                  <% } %>
+              <% } %>
+        
+        </div>
+    </div>
+</body>
+</html>
+<style>
+	.rounded-circle {
+		border-radius: 40% !important;
+	  }
+</style>

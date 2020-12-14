@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    
+
+	<style type="text/css">
+    </style>
+    <%- include("partials/head.ejs")%>
+    
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.2/animate.min.css">
+	
+</head>
+<body style="background-color: #222222">
+ 
+
+	<%- include ("partials/server-navbar.ejs",{user,checkforperm}) %>
+	<div class="container">
+		<h1 class="center-align"></h1>
+		<div class="row">
+            <% if (serverData.icon) { %>
+                <a href="/dashboard/<%= serverData.id %>" style="margin-top: -50px; padding: 20px;"><img title="<%=serverData.name%>" class="rounded-circle" src="<%= `https://cdn.discordapp.com/icons/${serverData.id}/${serverData.icon}.png?size=128` %>" style="width: 260px; margin: -10px; margin-bottom: -150px; margin-left: -100px;" alt="<%=serverData.name%>"></a>
+                <div  style="padding-left: 200px;padding-top: -100px; margin-top: -20px;">
+                    <p style="color:seashell">Şuanki Dil: <%=lang%></p>
+                        <div style="width: 100%;display:flex;align-items:center;">
+                            <a id="trBtn">
+                                <img src="/img/tr_flag.png" alt="Turk Bayragi"    style="width:500px;height:100px">
+                            </a>
+                            <a id="enBtn">
+                                <img src="/img/en_flag.png" alt="Ingiliz Bayragi" style="width:500px;height:100px">
+                            </a>
+                        </div>
+                </div>    
+                <% } else { %>
+                <a href="/dashboard/<%= serverData.id %>" style="margin-top: -50px; padding: 20px;"><canvas title="<%=serverData.name%>" style="background-color:#7289da; margin: -10px; margin-bottom: -150px; margin-left: -150px;" class="rounded-circle" id="<%= serverData.name.split(' ').join('').replace(`'`, ``) %>"  width="260px" height="240px" ></canvas></a>
+                    <script>
+                        function draw() {
+                  const ctx = document.getElementById("<%= serverData.name.split(' ').join('').replace(`'`, ``) %>").getContext('2d');
+                        ctx.font = '60px Arial';
+                        ctx.textAlign = "center";
+                        ctx.fillStyle = "white";
+                        ctx.fillText("<%= serverData.name.split(' ').map(v => v[0]).join('') %>", 128, 128);
+                  document.getElementById("<%= serverData.name.split(' ').join('').replace(`'`, ``) %>").style.marginBottom = "-100px";
+                  };
+                  draw();
+                    </script>
+                    <div  style="padding-left: 150px; padding-top: -100px; margin-top: -50px;">
+                        <p style="color:seashell">Şuanki Dil: <%=lang%></p>
+                            <div style="width: 100%;display:flex;align-items:center;">
+                                <a id="trBtn">
+                                    <img src="/img/tr_flag.png" alt="Turk Bayragi" style="width:500px;height:100px">
+                                </a>
+                                <a id="enBtn">
+                                    <img src="/img/en_flag.png" alt="Ingiliz Bayragi" style="width:500px;height:100px">
+                                </a>
+                            </div>
+
+                    </div>   
+                  <% } %>
+            
+
+
+            <script>
+            $('#trBtn').click(()=>{
+                console.log("veri Gondermeye basladim")
+                $.ajax({
+                    method:"POST",
+                    url: "/api/langSave",
+
+                    data: {
+                        langData: "tr_TR",
+                        guildId:"<%= serverData.id%>"
+                    },
+                    success(res){
+                        console.log(res)
+                        alert("Dil Başarıyla Türkçe Olarak Kayıt Edildi")
+                        window.location.reload();  
+                    },
+                    error(e){
+                        alert(e)
+                    }
+                })
+            })
+            $('#enBtn').click(()=>{
+                console.log("veri Gondermeye basladim")
+                $.ajax({
+                    method:"POST",
+                    url: "/api/langSave",
+
+                    data: {
+                        langData: "en_US",
+                        guildId:"<%= serverData.id%>"
+                    },
+                    success(res){
+                        console.log(res)
+                        alert("Dil Başarıyla İngilizce Olarak Kayıt Edildi")
+                        window.location.reload();
+                    },
+                    error(e){
+                        alert(e)
+                    }
+                })
+            })
+            </script>
+        </div>
+		
+		</div>
+	</div>
+</body>
+</html>
+<style>
+    .input-group-addon.info {
+    color: rgb(255, 255, 255);
+    background-color: rgb(57, 179, 215);
+    border-color: rgb(38, 154, 188);
+}
+</style>

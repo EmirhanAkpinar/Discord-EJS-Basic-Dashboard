@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Welcome!</title>
+	<style type="text/css">
+	</style>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.2/animate.min.css">
+	<%- include("partials/head.ejs")%>
+</head>
+<body style="background-color: #222222">
+	  <%- include ("partials/navbar.ejs",{user}) %>
+	<div class="container">
+		<h1 class="center-align"></h1>
+		<div class="row">
+			<div align="center">
+				<h3>Yönetici - Sunucu Seçimi</h3>
+				
+				<% bot.guilds.cache.forEach((sunucu) => {
+				%>
+				<% let link = `/dashboard/${sunucu.id}` %>
+				<% if (sunucu.icon) { %>
+				<a href="<%=link%>"><img title="<%=sunucu.name%>" class="rounded-circle" src="<%= `https://cdn.discordapp.com/icons/${sunucu.id}/${sunucu.icon}.png?size=128` %>" style="width: 80px;" alt=""></a>
+					<% } else { %>
+				<a href="<%=link%>"><canvas title="<%=sunucu.name%>" style="background-color:#7289da" class="rounded-circle" id="<%= sunucu.name.split(' ').join('').replace(`'`, ``) %>" width="80px" height="80px"></canvas></a>
+					<script>
+				  function draw() {
+				  const ctx = document.getElementById("<%= sunucu.name.split(' ').join('').replace(`'`, ``) %>").getContext('2d');
+						ctx.font = '20px Arial';
+						ctx.textAlign = "center";
+						ctx.fillStyle = "white";
+						ctx.fillText("<%= sunucu.name.split(' ').map(v => v[0]).join('') %>", 40, 48);
+				  document.getElementById("<%= sunucu.name.split(' ').join('').replace(`'`, ``) %>").style.marginBottom = "-35px";
+				  };
+				  draw();
+					</script>
+				  <% } %>
+			  <% }); %>
+			  
+			  </div>
+		
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<html>
+    <head>
+        <%- include("partials/head.ejs")%>
+    </head>
+    <body style="background-color: #222222;">
+        <%- include ("partials/server-navbar.ejs",{user,checkforperm}) %>
+        <a></a>
+        
+
+        <% if (serverData.icon) { %>
+            <a href="/dashboard/<%= serverData.id %>" style="margin-top: 20px; padding: 20px;"><img title="<%=serverData.name%>" class="rounded-circle" src="<%= `https://cdn.discordapp.com/icons/${serverData.id}/${serverData.icon}.png?size=128` %>" style="width: 260px; margin: 10px; margin-bottom: -50px;" alt="<%=serverData.name%>"></a>
+            <a href="/dashboard/<%= serverData.id %>/prefix">
+                <img src="/img/prefix.png" alt="Prefix" style="width:900px;height:50px;padding-left:30px;">
+            </a>
+            <a href="/dashboard/<%= serverData.id %>/lang">
+                <img src="/img/dil.png" alt="dil" style="width:900px;height:50px;padding-left:350px;">
+            </a>
+            <% } else { %>
+            <a href="/dashboard/<%= serverData.id %>" style="margin-top: 20px; padding: 20px;"><canvas title="<%=serverData.name%>" style="background-color:#7289da; margin: 8px;" class="rounded-circle" id="<%= serverData.name.split(' ').join('').replace(`'`, ``) %>"  width="260px" height="240px" ></canvas></a>
+                <script>
+              function draw() {
+              const ctx = document.getElementById("<%= serverData.name.split(' ').join('').replace(`'`, ``) %>").getContext('2d');
+                    ctx.font = '60px Arial';
+                    ctx.textAlign = "center";
+                    ctx.fillStyle = "white";
+                    ctx.fillText("<%= serverData.name.split(' ').map(v => v[0]).join('') %>", 128, 128);
+              document.getElementById("<%= serverData.name.split(' ').join('').replace(`'`, ``) %>").style.marginBottom = "-100px";
+              };
+              draw();
+                </script>
+                        <a href="/dashboard/<%= serverData.id %>/prefix">
+                            <img src="/img/prefix.png" alt="Prefix" style="width:900px;height:50px;padding-left:30px;">
+                        </a>
+                        <a href="/dashboard/<%= serverData.id %>/lang">
+                            <img src="/img/dil.png" alt="dil" style="width:900px;height:50px;padding-left:350px;padding-top: 50px;">
+                        </a>
+              <% } %>
+
+    </body>
+</html>

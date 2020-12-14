@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Welcome!</title>
+	<style type="text/css">
+		.circular {
+			width: 150px;
+			height: 150px;
+			border: 5px solid black !important;
+			border-radius: 150px;
+	        -webkit-border-radius: 150px;
+	        -moz-border-radius: 150px;
+	}
+	</style>
+		<%- include("partials/head.ejs")%>
+</head>
+<body style="background-color: #222222">
+	<%- include("partials/nologin-navbar.ejs")%>
+	<div class="container center-align">
+		<div class="col s12">
+            <h1 style="color: aliceblue;">Drimo Beta İstatistikler</h1>
+            <h4 style="color: rgb(250, 176, 225);"><i class="fa fa-server" aria-hidden="true"></i> Sunucular: <%=bot.guilds.cache.size%></h4>
+			<h4 style="color: rgb(241, 172, 236);"><i class="fa fa-users" aria-hidden="true"></i> Kullanıcılar: <%=bot.users.cache.size%></h4>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    
+
+	<style type="text/css">
+    </style>
+    <%- include("partials/head.ejs")%>
+    
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.2/animate.min.css">
+	
+</head>
+<body style="background-color: #222222">
+    
+
+	<%- include ("partials/server-navbar.ejs",{user,checkforperm}) %>
+	<div class="container">
+		<h1 class="center-align"></h1>
+		<div class="row">
+            <% if (serverData.icon) { %>
+                <a href="/dashboard/<%= serverData.id %>" style="margin-top: -50px; padding: 20px;"><img title="<%=serverData.name%>" class="rounded-circle" src="<%= `https://cdn.discordapp.com/icons/${serverData.id}/${serverData.icon}.png?size=128` %>" style="width: 260px; margin: -10px; margin-bottom: -150px; margin-left: -100px;" alt="<%=serverData.name%>"></a>
+                <div  style="padding-left: 200px;">
+                    <p style="color:seashell">Şuanki Prefix: <%=prefix%></p>
+                        <div class="input-group">
+                            <span class="input-group-addon info"><span class="glyphicon glyphicon-info-sign"></span></span>
+                            <input type="text" class="form-control" id="giris">
+                        </div>
+                        <button type="button" class="btn btn-primary" id="saveBtn">Kaydet</button>
+                </div>    
+                <% } else { %>
+                <a href="/dashboard/<%= serverData.id %>" style="margin-top: 20px; padding: 20px;"><canvas title="<%=serverData.name%>" style="background-color:#7289da; margin: -10px; margin-bottom: -150px; margin-left: -100px;" class="rounded-circle" id="<%= serverData.name.split(' ').join('').replace(`'`, ``) %>"  width="260px" height="240px" ></canvas></a>
+                    <script>
+                                    function draw() {
+                  const ctx = document.getElementById("<%= serverData.name.split(' ').join('').replace(`'`, ``) %>").getContext('2d');
+                        ctx.font = '60px Arial';
+                        ctx.textAlign = "center";
+                        ctx.fillStyle = "white";
+                        ctx.fillText("<%= serverData.name.split(' ').map(v => v[0]).join('') %>", 128, 128);
+                  document.getElementById("<%= serverData.name.split(' ').join('').replace(`'`, ``) %>").style.marginBottom = "-130px";
+                  };
+                  draw();
+                    </script>
+                <div  style="padding-left: 200px;">
+                     <p style="color:seashell">Şuanki Prefix: <%=prefix%></p>
+                    <div class="input-group">
+                         <span class="input-group-addon info"><span class="glyphicon glyphicon-info-sign"></span></span>
+                          <input type="text" class="form-control" id="giris">
+                    </div>
+                    <button type="button" class="btn btn-primary" id="saveBtn">Kaydet</button>
+                </div>    
+                  <% } %>
+            <!--<a href="/dashboard/<%= serverData.id %>" style="padding: 20px;"><img title="<%=serverData.name%>" class="rounded-circle" src="<%= `https://cdn.discordapp.com/icons/${serverData.id}/${serverData.icon}.png?size=128` %>" style="width: 200px; margin: 20px" alt="<%=serverData.name%>"></a>-->
+ 
+                
+
+            <script>
+            $('#saveBtn').click(()=>{
+                console.log("veri Gondermeye basladim")
+                $.ajax({
+                    method:"POST",
+                    url: "/api/prefixSave",
+
+                    data: {
+                        prefixData:$('#giris').val(),
+                        guildId:"<%= serverData.id%>"
+                    },
+                    success(res){
+                        console.log(res)
+                        alert("Prefix Başarıyla Değiştirildi Yeni Prefixiniz: " + $('#giris').val())
+                        window.location.reload();
+                    },
+                    error(e){
+                        alert(e)
+                    }
+                })
+            })
+
+            </script>
+        </div>
+		
+		</div>
+	</div>
+</body>
+</html>
+<style>
+    .input-group-addon.info {
+    color: rgb(255, 255, 255);
+    background-color: rgb(57, 179, 215);
+    border-color: rgb(38, 154, 188);
+}
+</style>

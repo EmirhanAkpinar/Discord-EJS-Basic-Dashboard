@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    
+
+	<style type="text/css">
+    </style>
+    <%- include("partials/head.ejs")%>
+    
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.2/animate.min.css">
+	
+</head>
+<body style="background-color: #222222">
+ 
+
+	<%- include ("partials/navbar.ejs",{user}) %>
+	<div class="container">
+		<h1 class="center-align"></h1>
+		<div class="row">
+                <a href="/profile" style="margin-top: -50px; padding: 20px;"><img title="<%=user.username%>" class="rounded-circle" src="<%= `https://cdn.discordapp.com/avatars/` + user.id + `/`+ user.avatar + `.png` %>" style="width: 260px; margin: -10px; margin-bottom: -150px; margin-left: -100px;" alt="<%=user.username%>"></a>
+                <div  style="padding-left: 200px;padding-top: -100px; margin-top: 10x; margin-left: 50px;">
+                    <p style="color:seashell">Merhaba, <%=user.username + "#" + user.discriminator%></p>
+                </div>    
+            
+
+
+        </div>
+		
+		</div>
+	</div>
+</body>
+</html>
+<style>
+    .input-group-addon.info {
+    color: rgb(255, 255, 255);
+    background-color: rgb(57, 179, 215);
+    border-color: rgb(38, 154, 188);
+}
+</style>
